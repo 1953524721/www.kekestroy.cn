@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>五子棋</title>
+    <style>
+        .chess-board {
+            display: flex;
+            flex-wrap: wrap;
+            width: 320px;
+            height: 320px;
+            border: 1px solid #000;
+        }
+        .chess-square {
+            width: 40px;
+            height: 40px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+        .black-piece {
+            background-color: black;
+        }
+        .white-piece {
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="board" class="chess-board"></div>
+
+    <script>
+        // 初始化变量
+        let currentPlayer = 'black';
+        const boardSize = 15; // 棋盘大小（默认15x15）
+        let boardState = Array(boardSize).fill(null).map(() => Array(boardSize).fill(null)); // 存储棋局状态
+
+        // 创建棋盘
+        function createBoard() {
+            const boardDiv = document.getElementById('board');
+            for (let i = 0; i < boardSize; i++) {
+                for (let j = 0; j < boardSize; j++) {
+                    const square = document.createElement('div');
+                    square.classList.add('chess-square');
+                    square.dataset.row = i;
+                    square.dataset.column = j;
+                    square.addEventListener('click', playPiece);
+                    boardDiv.appendChild(square);
+                }
+            }
+        }
+
+        // 下棋
+        function playPiece(event) {
+            const square = event.target;
+            if (square.classList.contains(currentPlayer + '-piece')) return; // 如果该位置已有棋子，则不执行操作
+            square.classList.add(currentPlayer + '-piece');
+            boardState[square.dataset.row][square.dataset.column] = currentPlayer;
+            checkWin(); // 检查是否赢了
+            currentPlayer = currentPlayer === 'black' ? 'white' : 'black'; // 切换玩家
+        }
+
+        // 检查胜利条件（此处仅提供简化的示例，实际游戏中需要检查所有可能的获胜情况）
+        function checkWin() {
+            // 实现五子连线检测的逻辑，这里仅给出占位逻辑
+            // ...
+        }
+
+        // 游戏初始化
+        window.onload = () => {
+            createBoard();
+        };
+    </script>
+</body>
+</html>

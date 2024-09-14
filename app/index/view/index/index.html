@@ -1,0 +1,205 @@
+<!doctype html>
+
+<html lang="en">
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+    <style>
+        .foot{ position: fixed;left: 50%;top: 97%;}
+        .icp{display: block;width: 220px;text-align: center;color: black;}
+        a{text-decoration: none;color: inherit;}
+        .icp1{color: #bbb;}
+    </style>
+    <SCRIPT LANGUAGE='JavaScript'>
+        function ResumeError() {
+            return true;
+        }
+        window.onerror = ResumeError;
+    </SCRIPT>
+    <title>首页</title>
+</head>
+<body>
+<p>
+    <span>{$state}</span>
+</p>
+<input type="hidden" value="{$url}">
+<canvas id="clock" width="500" height="500">
+    你的破浏览器不支持canvas标签，无法看到我们的激情小图片
+</canvas>
+<div class="foot">
+    <span class="icp"><a href="https://beian.miit.gov.cn/" class="icp1" target="_blank">{$icp}</a></span>
+</div>
+</body>
+<script>
+    /**
+     * 获取canvas元素并获取2D绘图环境
+     */
+    let clock = document.getElementById('clock');
+    const cxt = clock.getContext('2d');//html5中canvas获取2d画布，为当前在canvas中固定格式，getContext()方法返回一个用于在画布上绘图的环境。
+    /**
+     * 获取当前时间
+     */
+    const now1 = new Date();
+    const bk = '#ff9900';//表框
+    const sk = '#0066CC';//时刻度
+    const fk = '#0066CC';//分刻度
+    const sz = '#333399';//时针
+    const fz = '#333399';//分针
+    const mz = '#CCCC00';//秒针
+    const mh = '#FF0033';//秒针后小圆点
+    const mq = '#FF0033';//秒针前小圆点
+
+    /**
+     * 绘制时钟
+     */
+    function drawClock() {
+        let i;
+//清除画布
+        //清除画布
+        cxt.clearRect(0, 0, 500, 500);
+        const now = new Date();
+        const msec = now.getMilliseconds();//获取毫秒
+        const sec = now.getSeconds();//获取秒
+        const min = now.getMinutes();//获取分
+        let hour = now.getHours();//获取小时
+        //小时必须获取浮点类型(小时+分数转化成的小时)
+
+        hour = hour + min / 60; //比如当前时刻为11:40，其中的40分钟应该写成0.67小时
+        //问题 19:23:30
+        //将24小时进制转换为12小时
+
+        hour = hour > 12 ? hour - 12 : hour;
+        //表盘(蓝色)
+        //设置渐变色
+
+        const bbp = cxt.createRadialGradient(250, 250, 0, 250, 250, 250); //创建一个放射颜色渐变，在此处应该是以圆心为中心向四周放射渐变。
+        bbp.addColorStop(0.4, '#fff');//第一个参数代表“渐变度”，即渐变颜色的均匀值，一般都是从0~1的。
+        bbp.addColorStop(1, '#ffcc00'); //该行和上一行是一个组合，即从一个颜色渐变到另一个颜色，比如从黑色渐变到白色，他们分别对应的颜色应该是#000--#fff;
+        cxt.lineWidth = 12;//钟表外部圆框的宽度12px;
+        cxt.strokeStyle = bk;
+        cxt.fillStyle = bbp;//用设定好的渐变颜色进行填充
+        cxt.beginPath();
+        cxt.arc(250, 250, 200, 0, 360, false);//此句是画外面的圆框的，，，，可以查看arc()方法！
+        cxt.closePath();//beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
+        cxt.stroke();//stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑色。 也可以认为是对上面方法操作的执行的方法
+        cxt.fill();//fill() 方法填充当前的图像（路径）。默认颜色是黑色。
+        //刻度
+        //时刻度
+        for (i = 0; i < 12; i++) {
+            cxt.save();
+            //设置时针的粗细
+            cxt.lineWidth = 7;
+            //设置时针的颜色
+            cxt.strokeStyle = sk;
+            //先设置0,0点
+            cxt.translate(250, 250);
+            //再设置旋转角度
+            cxt.rotate(i * 30 * Math.PI / 180);//角度*Math.PI/180=弧度
+            cxt.beginPath();
+            cxt.moveTo(0, -170);
+            cxt.lineTo(0, -190);//这两个moveTo()和lineTo()方法分别是控制划线的长宽的
+            cxt.closePath();//beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
+            cxt.stroke();//stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑
+            cxt.restore();
+        }
+        //分刻度
+
+        for (i = 0; i < 60; i++) {
+            cxt.save();
+            //设置分刻度的粗细
+            cxt.lineWidth = 5;
+            //设置颜色(使用时刻度的颜色)
+            cxt.strokeStyle = fk;
+            //设置或者重置画布的0，0点
+            cxt.translate(250, 250);
+            //设置旋转角度
+            cxt.rotate(i * 6 * Math.PI / 180);
+            //画分针刻度
+            cxt.beginPath();
+            cxt.moveTo(0, -180);
+            cxt.lineTo(0, -190);
+            cxt.closePath();//beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
+            cxt.stroke();//stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑
+            cxt.restore();
+        }
+//时针
+        cxt.save();
+        //设置时针风格
+        cxt.lineWidth = 7;
+        //设置时针的颜色
+        cxt.strokeStyle = sz;
+        //设置异次元空间的0，0点
+        cxt.translate(250, 250);
+        //设置旋转角度
+        cxt.rotate(hour * 30 * Math.PI / 180);
+        cxt.beginPath();
+        cxt.moveTo(0, -110);
+        cxt.lineTo(0, 10);
+        cxt.closePath();//beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
+        cxt.stroke();//stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑
+        cxt.restore();
+        //分针
+        cxt.save();
+        //设置分针的风格
+        cxt.lineWidth = 5;
+        cxt.strokeStyle = fz;
+        //设置异次元空间分针画布的圆心
+        cxt.translate(250, 250);
+        //设置旋转角度
+        cxt.rotate(min * 6 * Math.PI / 180);
+        cxt.beginPath();
+        cxt.moveTo(0, -140);
+        cxt.lineTo(0, 15);
+        cxt.closePath();//beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
+        cxt.stroke();//stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑
+        cxt.restore();
+        //秒针
+        cxt.save();
+        //设置秒针的风格
+        //颜色红色
+        cxt.strokeStyle = mz;
+        //粗细 3像素
+        cxt.lineWidth = 3;
+        //重置0，0点
+        cxt.translate(250, 250);
+        //设置旋转角度
+        //cxt.rotate(sec + msec*0.006*Math.PI/180);
+        cxt.rotate((sec + msec / 1000) * 6 * Math.PI / 180);
+        //画图
+        cxt.beginPath();
+        cxt.moveTo(0, -170);
+        cxt.lineTo(0, 20);
+        cxt.closePath();//beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
+        cxt.stroke();//stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑
+        //画出时针、分针、秒针的交叉点、
+        cxt.beginPath();
+        cxt.arc(0, 0, 5, 0, 360, false);
+        cxt.closePath();//beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
+        //设置填充样式
+        cxt.fillStyle = mh;
+        cxt.fill();
+        //设置笔触样式(秒针已设置)
+        cxt.stroke();//stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑
+        //设置秒针前段的小圆点
+        cxt.beginPath();
+        cxt.arc(0, -150, 5, 0, 360, false);
+        cxt.closePath();//beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
+        //设置填充样式
+        cxt.fillStyle = mq;
+        cxt.fill();
+        //设置笔触样式(秒针已设置)
+        cxt.stroke();//stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑
+        cxt.restore();
+    }
+
+    //使用setInterval(代码,毫秒时间)  让时钟动起来
+    drawClock();
+    setInterval(drawClock, 50);
+    //https://blog.51cto.com/oxoxo/1574145?articleABtest=0
+
+</script>
+<script type="text/javascript">
+    console.log('{$url}')
+    console.log('{$state}')
+</script>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>
+    test
+</h1>
+</body>
+<script>
+    // 创建WebSocket连接
+    var socket = new WebSocket("ws://localhost:9502");
+    // 连接已打开时的处理方法
+    socket.onopen = function(event) {
+        socket.send("Hello Server!"); // 发送一个初始化消息
+    };
+    // 接收到消息时的处理方法
+    socket.onmessage = function(event) {
+        console.log(event.data); // 打印服务端返回的消息到控制台
+    };
+</script>
+</html>

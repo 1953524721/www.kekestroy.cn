@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <style>
+        *{margin: 0;padding: 0;margin: 0 auto}
+        .foot{ position: fixed;left: 40%;top: 95%;}
+        .icp{display: block;width: 220px;text-align: center;color: black;}
+        a{text-decoration: none;color: inherit;}
+        .icp1{color: #bbb;}
+        .aaa {
+            /*height: 1033px;*/
+            background-image: url("{$public}/static/login/background.jpg");
+
+
+
+            background-size: 100%, 100%;
+            /*background-color: #bbbbbb;*/
+        }
+
+        .right{
+            height:1033px;
+            width: 342px;
+            background:rgb(255,255,255);
+            opacity: 0.8;
+            position: absolute;top: 0%;left: 80%
+        }
+        .loginTable{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 30%;
+            left: 10px;
+        }
+        .userName{
+            height: 30px;
+            width: 280px;
+            border-radius: 6px;
+        }
+        .userPwd{
+            height: 30px;
+            width: 280px;
+            border-radius: 6px;
+        }
+        .captcha{
+            height: 30px;
+            width: 250px;
+            border-radius: 6px;
+        }
+        .button{
+            height: 30px;
+            width: 250px;
+            border-radius: 6px;
+            background-color: red;
+        }
+    </style>
+
+</head>
+<body>
+<label>
+    <input type="hidden" name="__token__" value="{:token()}" />
+    <input type="hidden" value="{$url}">
+</label>
+<div class="aaa">
+<!--    <img src="{$public}/static/login/background.jpg" alt="">-->
+    <div class="right">
+        <table class="loginTable">
+            <tr>
+                <td colspan="2">
+                    <label>
+                        <input type="text" name="userName" class="userName" placeholder="Name">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label>
+                        <input type="password" name="userPwd" class="userPwd" placeholder="Pwd">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">{:captcha_img()}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label>
+                        <input type="text" name="captcha" class="captcha" placeholder="验证码">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label>
+                        <input type="button" class="button" value="登录">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label>
+                        <!--                        <img src="/static/login/Connect_logo_5.png"  alt="QQ登录" id="qqLoginBtn" class="qqLogin">-->
+                        <span id="qqLoginBtn"></span>
+                    </label>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+   <div class="foot">
+       <span class="icp"><a href="https://beian.miit.gov.cn/" class="icp1" target="_blank">{$icp}</a></span>
+   </div>
+</body>
+<script type="text/javascript" src="{$public}/static/jquery-3.7.1.js" ></script>
+<script type="text/javascript">
+    alert($)
+</script>
+</html>
+

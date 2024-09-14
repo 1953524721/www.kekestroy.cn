@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .foot{ position: fixed;left: 50%;top: 97%;}
+        .icp{display: block;width: 220px;text-align: center;color: black;}
+        a{text-decoration: none;color: inherit;}
+        .icp1{color: #bbb;}
+    </style>
+
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td>用户名</td>
+                <td><label>
+                    <input type="text" name="userName" class="userName">
+                </label></td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td><label>
+                    <input type="password" name="userPwd" class="userPwd">
+                </label></td>
+            </tr>
+            <tr>
+                <td colspan="2">{:captcha_img()}</td>
+            </tr>
+            <tr>
+                <td>验证码</td>
+                <td>
+                    <label>
+                        <input type="text" name="captcha" class="captcha">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <input type="button" class="button" value="登录">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <img src="{$imgQQ}/static/login/Connect_logo_5.png" alt="QQ登录">
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" value="{$url}">
+    </div>
+   <div class="foot">
+       <span class="icp"><a href="https://beian.miit.gov.cn/" class="icp1" target="_blank">{$icp}</a></span>
+   </div>
+</body>
+<script></script>
+<script type="text/javascript" src="../../../../public/static/login/qc_jssdk.js" ></script>
+<script type="text/javascript"></script>
+</html>
+
