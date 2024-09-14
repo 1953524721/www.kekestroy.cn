@@ -12,16 +12,10 @@
         .icp{display: block;width: 220px;text-align: center;color: black;}
         a{text-decoration: none;color: inherit;}
         .icp1{color: #bbb;}
-        .aaa {
-            /*height: 1033px;*/
-            background-image: url("{$public}/static/login/background.jpg");
-
-
-
-            background-size: 100%, 100%;
-            /*background-color: #bbbbbb;*/
+        body{height:1033px;
+            background:url("/static/login/background.jpg") no-repeat 50%;
+            float: left;background-size: 100% 100%
         }
-
         .right{
             height:1033px;
             width: 342px;
@@ -66,8 +60,10 @@
     <input type="hidden" name="__token__" value="{:token()}" />
     <input type="hidden" value="{$url}">
 </label>
-<div class="aaa">
-<!--    <img src="{$public}/static/login/background.jpg" alt="">-->
+<div>
+    <div class="left">
+        123456789
+    </div>
     <div class="right">
         <table class="loginTable">
             <tr>
@@ -118,9 +114,52 @@
        <span class="icp"><a href="https://beian.miit.gov.cn/" class="icp1" target="_blank">{$icp}</a></span>
    </div>
 </body>
-<script type="text/javascript" src="{$public}/static/jquery-3.7.1.js" ></script>
-<script type="text/javascript">
-    alert($)
+<script></script>
+<script type="text/javascript"  charset="utf-8"
+        src="/static/login/qc_jssdk.js"
+        data-appid="102069887"
+        data-redirecturi="https://kekestroy.cn/login/index/loginQQ">
 </script>
+
+<script type="text/javascript">
+    QC.Login({
+        btnId:"qqLoginBtn"	//插入按钮的节点id
+    });
+</script>
+<script type="text/javascript">
+    //调用QC.Login方法，指定btnId参数将按钮绑定在容器节点中
+    QC.Login({
+            //btnId：插入按钮的节点id，必选
+            btnId:"qqLoginBtn",
+            //用户需要确认的scope授权项，可选，默认all
+            scope:"all",
+            //按钮尺寸，可用值[A_XL| A_L| A_M| A_S|  B_M| B_S| C_S]，可选，默认B_S
+            size: "C_S"
+        }, function(reqData, opts){//登录成功
+            //根据返回数据，更换按钮显示状态方法
+            var dom = document.getElementById(opts['btnId']),
+                _logoutTemplate=[
+                    //头像
+                    '<span><img src="{figureurl}" class="{size_key}"/></span>',
+                    //昵称
+                    '<span>{nickname}</span>',
+                    //退出
+                    '<span><a href="javascript:QC.Login.signOut();">退出</a></span>'
+                ].join("");
+            dom && (dom.innerHTML = QC.String.format(_logoutTemplate, {
+                nickname : QC.String.escHTML(reqData.nickname), //做xss过滤
+                figureurl : reqData.figureurl
+            }));
+        }, function(opts){//注销成功
+            alert('QQ登录 注销成功');
+        }
+    );
+</script>
+<!--<script type="text/javascript" src="/static/jquery-3.7.1.js" ></script>-->
+<!--<script type="text/javascript">-->
+<!--    $(".qqLogin").click(function () {-->
+
+<!--    })-->
+<!--</script>-->
 </html>
 

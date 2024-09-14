@@ -29,7 +29,7 @@ class Index extends BaseController {
      * @throws DbException
      * @throws ModelNotFoundException
      */
-    #[NoReturn] public function index(): string
+    public function index(): string
     {
 //        return View::fetch('index');
         // 渲染视图并返回渲染后的字符串
